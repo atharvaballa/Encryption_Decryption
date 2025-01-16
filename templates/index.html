@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption and Decryption</title>
+</head>
+<body>
+    <h1>Encryption and Decryption Web App</h1>
+    <label for="encryptionType">Select Encryption Type:</label>
+    <select id="encryptionType">
+        <option value="AES">AES</option>
+        <option value="DES">DES</option>
+        <option value="RSA">RSA</option>
+    </select>
+
+    <h3>Encrypt</h3>
+    <textarea id="plaintext" placeholder="Enter text to encrypt"></textarea>
+    <button onclick="encryptText()">Encrypt</button>
+    <p id="ciphertext"></p>
+
+    <h3>Decrypt</h3>
+    <textarea id="encryptedData" placeholder="Enter encrypted text"></textarea>
+    <textarea id="tag" placeholder="Enter tag (AES only)"></textarea>
+    <button onclick="decryptText()">Decrypt</button>
+    <p id="decryptedText"></p>
+
+    <script>
+        async function encryptText() {
+            const plaintext = document.getElementById("plaintext").value;
+            const encryptionType = document.getElementById("encryptionType").value;
+
+            const response = await fetch("/encrypt", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ plaintext, encryption_type: encryptionType })
+            });
+            const result = await response.json();
+            document.getElementById("ciphertext").innerText = JSON.stringify(result);
+        }
+
+        async function decryptText() {
+            const encryptedData = document.getElementById("encryptedData").value;
+            const tag = document.getElementById("tag").value; // For AES
+            const encryptionType = document.getElementById("encryptionType").value;
+
+            const response = await fetch("/decrypt", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ciphertext: encryptedData,
+                    tag: tag,
+                    encryption_type: encryptionType
+                })
+            });
+            const result = await response.json();
+            document.getElementById("decryptedText").innerText = result.plaintext || result.error;
+        }
+    </script>
+</body>
+</html>
