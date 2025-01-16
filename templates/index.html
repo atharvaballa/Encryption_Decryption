@@ -3,59 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encryption and Decryption</title>
+    <title>AES Encryption/Decryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 70%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            padding: 15px;
+            background-color: #e7f4e7;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    <h1>Encryption and Decryption Web App</h1>
-    <label for="encryptionType">Select Encryption Type:</label>
-    <select id="encryptionType">
-        <option value="AES">AES</option>
-        <option value="DES">DES</option>
-        <option value="RSA">RSA</option>
-    </select>
 
-    <h3>Encrypt</h3>
-    <textarea id="plaintext" placeholder="Enter text to encrypt"></textarea>
-    <button onclick="encryptText()">Encrypt</button>
-    <p id="ciphertext"></p>
+    <div class="container">
+        <h1>AES Encryption & Decryption</h1>
 
-    <h3>Decrypt</h3>
-    <textarea id="encryptedData" placeholder="Enter encrypted text"></textarea>
-    <textarea id="tag" placeholder="Enter tag (AES only)"></textarea>
-    <button onclick="decryptText()">Decrypt</button>
-    <p id="decryptedText"></p>
+        <!-- Show Error Message -->
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
 
-    <script>
-        async function encryptText() {
-            const plaintext = document.getElementById("plaintext").value;
-            const encryptionType = document.getElementById("encryptionType").value;
+        <!-- Encryption Form -->
+        <form action="{{ url_for('encrypt') }}" method="POST">
+            <h3>Encrypt Text</h3>
+            <textarea name="plaintext" rows="4" placeholder="Enter text to encrypt..."></textarea><br>
+            <button type="submit">Encrypt</button>
+        </form>
 
-            const response = await fetch("/encrypt", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ plaintext, encryption_type: encryptionType })
-            });
-            const result = await response.json();
-            document.getElementById("ciphertext").innerText = JSON.stringify(result);
-        }
+        {% if result %}
+        <div class="result">
+            <h3>Encrypted Result</h3>
+            <p><strong>Ciphertext:</strong> {{ result.ciphertext }}</p>
+            <p><strong>Tag:</strong> {{ result.tag }}</p>
+            <p><strong>IV:</strong> {{ result.iv }}</p>
+            <p><strong>Key:</strong> {{ result.key }}</p>
+        </div>
+        {% endif %}
 
-        async function decryptText() {
-            const encryptedData = document.getElementById("encryptedData").value;
-            const tag = document.getElementById("tag").value; // For AES
-            const encryptionType = document.getElementById("encryptionType").value;
+        <!-- Decryption Form -->
+        <form action="{{ url_for('decrypt') }}" method="POST">
+            <h3>Decrypt Text</h3>
+            <input type="text" name="ciphertext" placeholder="Ciphertext" /><br>
+            <input type="text" name="tag" placeholder="Tag" /><br>
+            <p><strong>Tag:</strong> Ensures the authenticity and integrity of the ciphertext, preventing tampering.</p>
+            <input type="text" name="iv" placeholder="IV" /><br>
+            <p><strong>IV (Initialization Vector):</strong> Provides randomness to ensure the same plaintext produces different ciphertexts each time.</p>
+            <input type="text" name="key" placeholder="Key" /><br>
+            <p><strong>Key:</strong> A secret cryptographic value used to encrypt and decrypt data, ensuring confidentiality.</p>
+            <button type="submit">Decrypt</button>
+        </form>
 
-            const response = await fetch("/decrypt", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    ciphertext: encryptedData,
-                    tag: tag,
-                    encryption_type: encryptionType
-                })
-            });
-            const result = await response.json();
-            document.getElementById("decryptedText").innerText = result.plaintext || result.error;
-        }
-    </script>
+        {% if decrypted_text %}
+        <div class="result">
+            <h3>Decrypted Result</h3>
+            <p><strong>Decrypted Text:</strong> {{ decrypted_text }}</p>
+        </div>
+        {% endif %}
+    </div>
+
 </body>
 </html>
