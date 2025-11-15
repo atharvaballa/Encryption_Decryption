@@ -1,7 +1,7 @@
 const API_URL = "https://encryption-decryption-5ffi.onrender.com"; // your backend URL
 
 /* ---------------------------
-   Toast Notification Function
+   Toast Notification
 ----------------------------*/
 function showToast(message) {
     const toast = document.getElementById("toast");
@@ -10,11 +10,11 @@ function showToast(message) {
 
     setTimeout(() => {
         toast.classList.remove("show");
-    }, 2000); // auto-hide in 2 seconds
+    }, 2000);
 }
 
 /* ---------------------------
-   Copy to Clipboard Function
+   Copy to Clipboard
 ----------------------------*/
 function copyText(value, label) {
     navigator.clipboard.writeText(value);
@@ -24,6 +24,8 @@ function copyText(value, label) {
 /* ---------------------------
         ENCRYPT
 ----------------------------*/
+let lastEncryptionOutput = "";   // store for download
+
 function encrypt() {
     const plaintext = document.getElementById("plaintext").value;
 
@@ -61,12 +63,43 @@ function encrypt() {
                 <button class="copy-btn" onclick="copyText('${data.key}', 'Key')">Copy</button>
             </div>
         `;
+
+        // Save for download
+        lastEncryptionOutput = 
+`--- AES Encryption Output ---
+Ciphertext: ${data.ciphertext}
+
+Tag: ${data.tag}
+
+IV: ${data.iv}
+
+Key: ${data.key}
+------------------------------`;
     });
+}
+
+/* ---------------------------
+       DOWNLOAD ENCRYPTION
+----------------------------*/
+function downloadEncryption() {
+    if (!lastEncryptionOutput) {
+        showToast("No encryption output yet");
+        return;
+    }
+
+    const blob = new Blob([lastEncryptionOutput], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "encryption_output.txt";
+    link.click();
+    showToast("Encryption output downloaded");
 }
 
 /* ---------------------------
         DECRYPT
 ----------------------------*/
+let lastDecryptionOutput = "";
+
 function decrypt() {
     const payload = {
         ciphertext: document.getElementById("ciphertext").value,
@@ -98,6 +131,30 @@ function decrypt() {
             </div>
         `;
 
+        // Save for download
+        lastDecryptionOutput = 
+`--- AES Decryption Output ---
+Decrypted Text:
+${data.decrypted_text}
+-------------------------------`;
+
         showToast("Decryption successful");
     });
+}
+
+/* ---------------------------
+     DOWNLOAD DECRYPTION
+----------------------------*/
+function downloadDecryption() {
+    if (!lastDecryptionOutput) {
+        showToast("No decryption output yet");
+        return;
+    }
+
+    const blob = new Blob([lastDecryptionOutput], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "decryption_output.txt";
+    link.click();
+    showToast("Decryption output downloaded");
 }
