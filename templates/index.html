@@ -1,58 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AES Encryption & Decryption</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>AES Encryption / Decryption</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+<h2>AES Encryption & Decryption (Frontend → GitHub Pages)</h2>
 
-    <h2>AES Encryption & Decryption Tool</h2>
-
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
-
-    <!-- ENCRYPT SECTION -->
-    <div class="box">
-        <h3>Encrypt Text</h3>
-        <form action="/encrypt" method="POST">
-            <textarea name="plaintext" placeholder="Enter text to encrypt..."></textarea>
-            <button type="submit">Encrypt</button>
-        </form>
-
-        {% if result %}
-        <div class="output">
-            <p><strong>Ciphertext:</strong> {{ result.ciphertext }}</p>
-            <p><strong>Tag:</strong> {{ result.tag }}</p>
-            <p><strong>IV:</strong> {{ result.iv }}</p>
-            <p><strong>Key:</strong> {{ result.key }}</p>
-        </div>
-        {% endif %}
-    </div>
-
-    <!-- DECRYPT SECTION -->
-    <div class="box">
-        <h3>Decrypt Text</h3>
-        <form action="/decrypt" method="POST">
-            <input type="text" name="ciphertext" placeholder="Ciphertext (Base64)">
-            <input type="text" name="tag" placeholder="Tag (Base64)">
-            <input type="text" name="iv" placeholder="IV (Base64)">
-            <input type="text" name="key" placeholder="Key (Base64)">
-            <button type="submit">Decrypt</button>
-        </form>
-
-        {% if decrypted_text %}
-        <div class="output">
-            <p><strong>Decrypted Text :</strong> {{ decrypted_text }}</p>
-        </div>
-        {% endif %}
-    </div>
-
+<div class="box">
+    <h3>Encrypt</h3>
+    <textarea id="plaintext" placeholder="Enter text"></textarea>
+    <button onclick="encrypt()">Encrypt</button>
+    <pre id="encryptOutput"></pre>
 </div>
 
+<div class="box">
+    <h3>Decrypt</h3>
+    <input id="ciphertext" placeholder="Ciphertext">
+    <input id="tag" placeholder="Tag">
+    <input id="iv" placeholder="IV">
+    <input id="key" placeholder="Key">
+    <button onclick="decrypt()">Decrypt</button>
+    <pre id="decryptOutput"></pre>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
