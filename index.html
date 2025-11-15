@@ -16,6 +16,8 @@
         <textarea id="plaintext" placeholder="Enter text to encrypt..."></textarea>
         <button onclick="encrypt()">Encrypt</button>
         <div id="encryptOutput" class="output-box"></div>
+        <button class="download-btn" onclick="downloadEncryption()">Download Encryption Output</button>
+
     </div>
 
     <!-- Decrypt Section -->
@@ -27,6 +29,7 @@
         <input id="key" placeholder="Key (Base64)">
         <button onclick="decrypt()">Decrypt</button>
         <div id="decryptOutput" class="output-box"></div>
+        <button class="download-btn" onclick="downloadDecryption()">Download Decryption Output</button>
     </div>
 
 </div>
