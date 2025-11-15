@@ -3,104 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AES Encryption/Decryption</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 70%;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        h1 {
-            text-align: center;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .result {
-            padding: 15px;
-            background-color: #e7f4e7;
-            margin-top: 20px;
-            border-radius: 5px;
-        }
-        .error {
-            color: red;
-        }
-    </style>
+    <title>AES Encryption & Decryption</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    <div class="container">
-        <h1>AES Encryption & Decryption</h1>
+<div class="container">
 
-        <!-- Show Error Message -->
-        {% if error %}
-        <div class="error">{{ error }}</div>
-        {% endif %}
+    <h2>AES Encryption & Decryption Tool</h2>
 
-        <!-- Encryption Form -->
-        <form action="{{ url_for('encrypt') }}" method="POST">
-            <h3>Encrypt Text</h3>
-            <textarea name="plaintext" rows="4" placeholder="Enter text to encrypt..."></textarea><br>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <!-- ENCRYPT SECTION -->
+    <div class="box">
+        <h3>Encrypt Text</h3>
+        <form action="/encrypt" method="POST">
+            <textarea name="plaintext" placeholder="Enter text to encrypt..."></textarea>
             <button type="submit">Encrypt</button>
         </form>
 
         {% if result %}
-        <div class="result">
-            <h3>Encrypted Result</h3>
+        <div class="output">
             <p><strong>Ciphertext:</strong> {{ result.ciphertext }}</p>
             <p><strong>Tag:</strong> {{ result.tag }}</p>
             <p><strong>IV:</strong> {{ result.iv }}</p>
             <p><strong>Key:</strong> {{ result.key }}</p>
         </div>
         {% endif %}
+    </div>
 
-        <!-- Decryption Form -->
-        <form action="{{ url_for('decrypt') }}" method="POST">
-            <h3>Decrypt Text</h3>
-            <input type="text" name="ciphertext" placeholder="Ciphertext" /><br>
-            <input type="text" name="tag" placeholder="Tag" /><br>
-            <p><strong>Tag:</strong> Ensures the authenticity and integrity of the ciphertext, preventing tampering.</p>
-            <input type="text" name="iv" placeholder="IV" /><br>
-            <p><strong>IV (Initialization Vector):</strong> Provides randomness to ensure the same plaintext produces different ciphertexts each time.</p>
-            <input type="text" name="key" placeholder="Key" /><br>
-            <p><strong>Key:</strong> A secret cryptographic value used to encrypt and decrypt data, ensuring confidentiality.</p>
+    <!-- DECRYPT SECTION -->
+    <div class="box">
+        <h3>Decrypt Text</h3>
+        <form action="/decrypt" method="POST">
+            <input type="text" name="ciphertext" placeholder="Ciphertext (Base64)">
+            <input type="text" name="tag" placeholder="Tag (Base64)">
+            <input type="text" name="iv" placeholder="IV (Base64)">
+            <input type="text" name="key" placeholder="Key (Base64)">
             <button type="submit">Decrypt</button>
         </form>
 
         {% if decrypted_text %}
-        <div class="result">
-            <h3>Decrypted Result</h3>
-            <p><strong>Decrypted Text:</strong> {{ decrypted_text }}</p>
+        <div class="output">
+            <p><strong>Decrypted Text :</strong> {{ decrypted_text }}</p>
         </div>
         {% endif %}
     </div>
+
+</div>
 
 </body>
 </html>
