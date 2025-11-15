@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask_cors import CORS
 from Cryptodome.Cipher import AES
 from Cryptodome.Random import get_random_bytes
 import base64
 
 app = Flask(__name__)
+CORS(app)
 
 # AES Encryption function
 def aes_encrypt(plaintext, key):
