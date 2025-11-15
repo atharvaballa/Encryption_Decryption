@@ -1,7 +1,4 @@
-/* ------------------------ */
-/* Global Layout */
-/* ------------------------ */
-
+/* Background */
 body {
     margin: 0;
     padding: 40px;
@@ -11,13 +8,13 @@ body {
     color: #fff;
 }
 
-/* Center container */
+/* Main container */
 .container {
     max-width: 850px;
     margin: auto;
 }
 
-/* Title */
+/* Main title */
 h2 {
     text-align: center;
     font-size: 32px;
@@ -26,10 +23,7 @@ h2 {
     letter-spacing: 1px;
 }
 
-/* ------------------------ */
-/* Card/Box Styling */
-/* ------------------------ */
-
+/* Cards */
 .box {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(20px);
@@ -40,17 +34,14 @@ h2 {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Sub-headings */
+/* Sub headings */
 h3 {
     font-size: 22px;
     margin-bottom: 15px;
     font-weight: 500;
 }
 
-/* ------------------------ */
-/* Inputs & Textareas */
-/* ------------------------ */
-
+/* Inputs */
 textarea, input {
     width: 100%;
     padding: 14px;
@@ -65,22 +56,18 @@ textarea, input {
     backdrop-filter: blur(8px);
 }
 
+textarea {
+    height: 130px;
+    resize: vertical;
+}
+
 textarea::placeholder,
 input::placeholder {
     color: #f5f5f5;
     opacity: 0.7;
 }
 
-/* Textarea resizing */
-textarea {
-    height: 130px;
-    resize: vertical;
-}
-
-/* ------------------------ */
 /* Buttons */
-/* ------------------------ */
-
 button {
     width: 100%;
     padding: 14px;
@@ -102,33 +89,42 @@ button:hover {
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }
 
-/* ------------------------ */
-/* Output Box */
-/* ------------------------ */
-
-pre, .output {
-    background: rgba(0, 0, 0, 0.35);
-    padding: 15px;
-    border-radius: 12px;
-    margin-top: 15px;
-    color: #e2e2e2;
-    font-size: 15px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    border-left: 4px solid #ffbb00;
+/* Output Section */
+.output-box {
+    margin-top: 20px;
 }
 
-/* ------------------------ */
-/* Error Message */
-/* ------------------------ */
+.output-field {
+    margin-bottom: 18px;
+}
 
-.error {
-    background: rgba(255, 0, 0, 0.3);
-    padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    margin-bottom: 20px;
-    backdrop-filter: blur(10px);
-    border-left: 4px solid #ff0000;
+.output-field label {
     font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.output-field pre {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 12px;
+    border-radius: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 14px;
+}
+
+/* Copy button */
+.copy-btn {
+    background: #ffbb00;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    margin-top: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.copy-btn:hover {
+    background: #ffd658;
 }
