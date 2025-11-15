@@ -2,29 +2,35 @@
 <html>
 <head>
     <title>AES Encryption / Decryption</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
-<h2>AES Encryption & Decryption</h2>
+<div class="container">
 
-<div class="box">
-    <h3>Encrypt</h3>
-    <textarea id="plaintext" placeholder="Enter text"></textarea>
-    <button onclick="encrypt()">Encrypt</button>
-    <pre id="encryptOutput"></pre>
+    <h2>AES Encryption & Decryption</h2>
+
+    <!-- Encrypt Section -->
+    <div class="box">
+        <h3>Encrypt</h3>
+        <textarea id="plaintext" placeholder="Enter text to encrypt..."></textarea>
+        <button onclick="encrypt()">Encrypt</button>
+        <div id="encryptOutput" class="output-box"></div>
+    </div>
+
+    <!-- Decrypt Section -->
+    <div class="box">
+        <h3>Decrypt</h3>
+        <input id="ciphertext" placeholder="Ciphertext (Base64)">
+        <input id="tag" placeholder="Tag (Base64)">
+        <input id="iv" placeholder="IV (Base64)">
+        <input id="key" placeholder="Key (Base64)">
+        <button onclick="decrypt()">Decrypt</button>
+        <div id="decryptOutput" class="output-box"></div>
+    </div>
+
 </div>
 
-<div class="box">
-    <h3>Decrypt</h3>
-    <input id="ciphertext" placeholder="Ciphertext">
-    <input id="tag" placeholder="Tag">
-    <input id="iv" placeholder="IV">
-    <input id="key" placeholder="Key">
-    <button onclick="decrypt()">Decrypt</button>
-    <pre id="decryptOutput"></pre>
-</div>
-
-<script src="js/script.js"></script>
+<script src="js/script.js?v=3"></script>
 </body>
 </html>
