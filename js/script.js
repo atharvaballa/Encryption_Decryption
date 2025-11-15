@@ -1,4 +1,4 @@
-const API_URL = "https://your-render-url.onrender.com";
+const API_URL = "https://encryption-decryption-5ffi.onrender.com";
 
 function encrypt() {
     const plaintext = document.getElementById("plaintext").value;
