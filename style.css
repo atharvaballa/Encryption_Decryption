@@ -128,3 +128,25 @@ button:hover {
 .copy-btn:hover {
     background: #ffd658;
 }
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
